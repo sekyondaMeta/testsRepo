@@ -1,0 +1,45 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  spellcheck:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get install aspell aspell-en
+          pip install pyspelling
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v29.0.4
+        with:
+          files: |
+            **/*.md
+
+      - name: Check spellings
+        run: |
+          sources=""
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            sources="${sources} -S $file"
+          done
+          if [ ! "$sources" ]; then
+            echo "No files to spellcheck"
+          else
+            pyspelling -c $GITHUB_WORKSPACE/ts_scripts/spellcheck_conf/spellcheck.yaml --name Markdown $sources
+          fi
+
+      - name: In the case of misspellings
+        if: ${{ failure() }}
+        run: |
+          echo "Please fix the misspellings. If you are sure about some of them, "
+          echo "so append those to ts_scripts/spellcheck_conf/wordlist.txt"
