@@ -11,4 +11,4 @@ Also, this is a bulleted list
 - Vier
 
 And a [link](https://www.arsenal.com/)
-And [another broken link](https://github.com/pytorch/serve/blob/master/docs/FAQ)
+And [another broken link](https://github.com/pytorch/serve/blob/master/docs/FAQs.md)
