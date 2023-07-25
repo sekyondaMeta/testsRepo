@@ -12,5 +12,5 @@ Also, this is a bulleted list
 
 And a [link](https://www.arsenal.com/)
 And a [link](https://www.arsenal.com/)
-And [another broken link](https://github.com/pytorch/serve/blob/master/docs/FAQ)
+And [another broken link](https://github.com/pytorch/serve/blob/master/docs/FAQs.md)
 And a [link](https://www.arsenal.com/)
