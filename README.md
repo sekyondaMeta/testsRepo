@@ -1,8 +1,8 @@
 # Test Repo
 
-This is a repo I plan to use to test random things specificaly things with GitHub actions.
+This is a repo I plan to use to test random things specifically things with GitHub actions.
 
-So dont get too excited by what you see here. It really is not that exciting.
+So don't get too excited by what you see here. It really is not that exciting.
 
 Also, this is a bulleted list
 - One
@@ -11,4 +11,6 @@ Also, this is a bulleted list
 - Vier
 
 And a [link](https://www.arsenal.com/)
-And [another brokenlink](https://github.com/pytorch/serve/blob/master/docs/FAQ)
+And a [link](https://www.arsenal.com/)
+And [another broken link](https://github.com/pytorch/serve/blob/master/docs/FAQs.md)
+And a [link](https://www.arsenal.com/)
