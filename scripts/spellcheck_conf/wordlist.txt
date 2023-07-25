@@ -1064,7 +1064,7 @@ ActionSLAM
 statins
 ci
 chatGPT
-One
-Dos
-Trois
-Vier
+Llama
+PEFT
+LORA
+FSDP
