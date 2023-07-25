@@ -1,6 +1,6 @@
 # Test Repo
 
-This is a repo I plan to use to test random things specifically things with GitHub actions.
+This is a repo I plan to use to test random things specifically things with GitHub actions and others.
 
 So don't get too excited by what you see here. It really is not that exciting.
 
