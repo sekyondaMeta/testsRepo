@@ -6,7 +6,8 @@
     {
       "urls": [
         "https://docs.github.com/",
-        "https://help.github.com/"
+        "https://help.github.com/",
+        "https://www.intel.com/content/www/us/en/developer/articles/news/llama2.html"
       ],
       "headers": {
         "Accept-Encoding": "zstd, br, gzip, deflate"
