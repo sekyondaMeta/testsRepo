@@ -6,8 +6,7 @@
     {
       "urls": [
         "https://docs.github.com/",
-        "https://help.github.com/",
-        "https://www.intel.com/"
+        "https://help.github.com/"
       ],
       "headers": {
         "Accept-Encoding": "zstd, br, gzip, deflate"
@@ -20,6 +19,9 @@
     },
     {
       "pattern": "^http(s)?://localhost.*"
+    },
+    {
+      "pattern": "https://www.intel.com/*"
     }
   ]
 }
