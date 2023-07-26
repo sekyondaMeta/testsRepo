@@ -19,6 +19,9 @@
     },
     {
       "pattern": "^http(s)?://localhost.*"
+    },
+    {
+      "pattern": "https://www.intel.com/*"
     }
   ]
 }
