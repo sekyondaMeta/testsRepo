@@ -14,3 +14,6 @@ And a [link](https://www.arsenal.com/)
 And a [link](https://www.arsenal.com/)
 And [another broken link](https://github.com/pytorch/serve/blob/master/docs/FAQs.md)
 And a [link](https://www.arsenal.com/)
+
+[Issa link](https://www.intel.com/content/www/us/en/developer/articles/news/llama2.html)
+https://www.intel.com/content/www/us/en/developer/articles/news/llama2.html
