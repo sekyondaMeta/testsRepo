@@ -23,7 +23,27 @@ jobs:
           token: ${{ secrets.CUSTOM_TOKEN }}
           fail: true
 
+      - name: Create Issue for Broken Links
+        if: failure() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'incorrect links',
+              state: 'open'
+            });
 
+            if (issues.length === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: 'Broken Links Detected',
+                body: 'The link check has detected broken links in the repository. Please review and fix them.',
+                labels: ['incorrect links']
+              });
+            }
 
       - name: Suggestions
         if: failure()
