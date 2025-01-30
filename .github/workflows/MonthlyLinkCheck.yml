@@ -1,24 +1,53 @@
-name: link_check_monthly
+name: Link Check
+
 on:
-  workflow_dispatch:
+  pull_request:
+    branches: [main]
   schedule:
-    - cron: "0 0 1 * *" # Run on the 1st day of every month at midnight
+    - cron: '0 0 1 * *'  # Runs at midnight on the first day of every month
+  workflow_dispatch:  # Allows manual triggering of the workflow
+
 jobs:
   linkChecker:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
-      - name: Link Checker
+        with:
+          fetch-depth: 1
+
+      - name: Check Links
         uses: lycheeverse/lychee-action@v1
         with:
-          args: --accept=200,403,429 --base . --verbose --no-progress './**/*.md' './**/*.html' './**/*.rst'
+          args: --accept=200,403,429 --base . --verbose --no-progress
           token: ${{ secrets.CUSTOM_TOKEN }}
           fail: true
-      - name: Create Issue From File
-        #if: env.lychee_exit_code != 0
-        uses: peter-evans/create-issue-from-file@v4
+
+      - name: Create Issue for Broken Links
+        if: failure() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        uses: actions/github-script@v6
         with:
-          title: Link Checker Report
-          content-filepath: ./lychee/out.md
-          labels: incorrect links
-          token: ${{ secrets.CUSTOM_TOKEN }}:repo
+          script: |
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'incorrect links',
+              state: 'open'
+            });
+
+            if (issues.length === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: 'Broken Links Detected',
+                body: 'The link check has detected broken links in the repository. Please review and fix them.',
+                labels: ['incorrect links']
+              });
+            }
+
+      - name: Suggestions
+        if: failure()
+        run: |
+          echo -e "\nPlease review the links reported in the Check links step above."
+          echo -e "If a link is valid but fails due to a CAPTCHA challenge, IP blocking, login requirements, etc., consider adding such links to .lycheeignore file to bypass future checks.\n"
+          exit 1
