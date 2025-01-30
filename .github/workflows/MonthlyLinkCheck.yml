@@ -21,3 +21,4 @@ jobs:
           title: Link Checker Report
           content-filepath: ./lychee/out.md
           labels: incorrect links
+          token: ${{ secrets.CUSTOM_TOKEN }}:repo
