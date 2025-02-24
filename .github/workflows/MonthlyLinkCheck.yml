@@ -1,28 +1,24 @@
 name: Link Check
-
 on:
   pull_request:
     branches: [main]
   schedule:
     - cron: '0 0 1 * *'  # Runs at midnight on the first day of every month
   workflow_dispatch:  # Allows manual triggering of the workflow
-
 jobs:
   linkChecker:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 1
-
       - name: Check Links
+        id: lychee
         uses: lycheeverse/lychee-action@v1
         with:
           args: --accept=200,403,429 --base . --verbose --no-progress './**/*.md' './**/*.html' './**/*.rst'
-          token: ${{  secrets.MonthlyLinkCheck  }}
+          token: ${{ secrets.MonthlyLinkCheck }}
           fail: true
-
       - name: Create Issue for Broken Links
         if: failure() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
         uses: actions/github-script@v6
@@ -34,17 +30,19 @@ jobs:
               labels: 'incorrect links',
               state: 'open'
             });
-
             if (issues.length === 0) {
+              const lycheeOutput = `\`\`\`\n${process.env.LYCHEE_OUTPUT}\n\`\`\``;
               await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 title: 'Broken Links Detected',
-                body: 'The link check has detected broken links in the repository. Please review and fix them.',
+                body: `The link check has detected broken links in the repository. Please review and fix them.\n\n${lycheeOutput}`,
                 labels: ['incorrect links']
               });
             }
           github-token: ${{ secrets.MonthlyLinkCheck }}
+        env:
+          LYCHEE_OUTPUT: ${{ steps.lychee.outputs.stdout }}
       - name: Suggestions
         if: failure()
         run: |
