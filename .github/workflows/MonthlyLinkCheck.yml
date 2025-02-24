@@ -44,7 +44,7 @@ jobs:
                 labels: ['incorrect links']
               });
             }
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.MonthlyLinkCheck }}
       - name: Suggestions
         if: failure()
         run: |
