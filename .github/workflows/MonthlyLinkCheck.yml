@@ -23,7 +23,7 @@ jobs:
           fail: true
 
       - name: Create Issue From File
-        if: steps.lychee.outputs.exit_code != 0 && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        #if: steps.lychee.outputs.exit_code != 0 && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
         uses: peter-evans/create-issue-from-file@v5
         with:
           title: Broken links detected in docs 🔗
