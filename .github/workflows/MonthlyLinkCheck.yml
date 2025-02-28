@@ -20,7 +20,7 @@ jobs:
         with:
           args: --accept=200,403,429 --base . --verbose --no-progress './**/*.md' './**/*.html' './**/*.rst'
           token: ${{ secrets.MonthlyLinkCheck }}
-          fail: true
+          #fail: true
 
       - name: Create Issue From File
         if: steps.lychee.outputs.exit_code != 0 && steps.link-checker-issue.outputs.has-found == 'false'
