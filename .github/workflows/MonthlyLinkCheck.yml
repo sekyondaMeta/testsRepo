@@ -19,7 +19,7 @@ jobs:
         uses: lycheeverse/lychee-action@v2
         with:
           args: --accept=200,403,429 --base . --verbose --no-progress './**/*.md' './**/*.html' './**/*.rst'
-          token: ${{ secrets.MonthlyLinkCheck }}
+          token: ${{ secrets.CUSTOM_TOKEN }}
           fail: true
 
       - name: Create Issue From File
@@ -29,32 +29,9 @@ jobs:
           title: Broken links detected in docs 🔗
           content-filepath: ./lychee/out.md
           labels: 'incorrect links'
-          token: ${{secrets.MonthlyLinkCheck}}
+          token: ${{ secrets.CUSTOM_TOKEN }}
           
-     # - name: Create Issue for Broken Links
-    #    if: failure() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
-      #  uses: actions/github-script@v6
-     #   with:
-      #    script: |
-      #      const { data: issues } = await github.rest.issues.listForRepo({
-       #       owner: context.repo.owner,
-       #       repo: context.repo.repo,
-       #       labels: 'incorrect links',
-      #        state: 'open'
-       #     });
-       #     if (issues.length === 0) {
-      #        const lycheeOutput = `\`\`\`\n${process.env.LYCHEE_OUTPUT}\n\`\`\``;
-       #       await github.rest.issues.create({
-       #         owner: context.repo.owner,
-       #         repo: context.repo.repo,
-       #         title: 'Broken Links Detected',
-        #        body: `The link check has detected broken links in the repository. Please review and fix them.\n\n${lycheeOutput}`,
-       #         labels: ['incorrect links']
-        #      });
-        #    }
-       #   github-token: ${{ secrets.MonthlyLinkCheck }}
-      #  env:
-     #     LYCHEE_OUTPUT: ${{ steps.lychee.outputs.stdout }}
+    
       - name: Suggestions
         if: failure()
         run: |
