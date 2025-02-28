@@ -20,17 +20,17 @@ jobs:
         with:
           args: --accept=200,403,429 --base . --verbose --no-progress './**/*.md' './**/*.html' './**/*.rst'
           token: ${{ secrets.MonthlyLinkCheck }}
-          fail: false
+          fail: true
 
       - name: Create Issue From File
         if: steps.lychee.outputs.exit_code != 0 && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
         uses: peter-evans/create-issue-from-file@v5
         with:
           title: Broken links detected in docs 🔗
-          # Update an existing issue if one was found (issue-number),
-          # otherwise an empty value creates a new issue:
           content-filepath: ./lychee/out.md
+          labels: 'incorrect links'
           token: ${{secrets.MonthlyLinkCheck}}
+          
      # - name: Create Issue for Broken Links
     #    if: failure() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
       #  uses: actions/github-script@v6
