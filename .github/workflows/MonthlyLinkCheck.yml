@@ -29,7 +29,7 @@ jobs:
           title: Broken links detected in docs 🔗
           content-filepath: ./lychee/out.md
           labels: 'incorrect links'
-          token: ${{ secrets.CUSTOM_TOKEN }}
+          #token: ${{ secrets.CUSTOM_TOKEN }}
           
     
       - name: Suggestions
