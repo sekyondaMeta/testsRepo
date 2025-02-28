@@ -23,12 +23,15 @@ jobs:
           fail: true
 
       - name: Create Issue From File
-        if: steps.lychee.outputs.exit_code != 0
+        if: steps.lychee.outputs.exit_code != 0 && steps.link-checker-issue.outputs.has-found == 'false'
         uses: peter-evans/create-issue-from-file@v5
         with:
-          title: Link Checker Report
+          title: Broken links detected in docs 🔗
+          # Update an existing issue if one was found (issue-number),
+          # otherwise an empty value creates a new issue:
+          issue-number: "${{ steps.link-checker-issue.outputs.issue_number }}"
           content-filepath: ./lychee/out.md
-          labels: report, automated issue
+          token: ${{secrets.MonthlyLinkCheck}}
      # - name: Create Issue for Broken Links
     #    if: failure() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
       #  uses: actions/github-script@v6
